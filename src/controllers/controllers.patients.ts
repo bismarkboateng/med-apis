@@ -57,3 +57,44 @@ export const createConsultation = async (request: Request, response: Response) =
     }
 }
 
+export const searchConsultation = async (request: Request, response: Response) => {
+    const { date, patientName, healthcare_provider, consultation_type, medical_condition } = request.query
+
+    try {
+        await connectToDatabase()
+        const consultations = await Patient.find({
+            "$or": [
+                { "personal_information.fullName": { $regex: new RegExp(patientName as string, "i") } },
+                { consultation_type: { $regex: new RegExp(consultation_type as string, "i") } },
+                { healthcare_provider: { $regex: new RegExp(healthcare_provider as string, "i") } },
+                { "patient_problem.medical_condition": { $regex: new RegExp(medical_condition as string, "i") } },
+                { date: { $regex: new RegExp(date as string, "i") } }
+            ]
+        })
+        if(!consultations) {
+            return response.status(404).send({ message: "Search not found" })
+        }
+        return response.status(200).send(consultations)
+    } catch (error) {
+        throw error
+    }
+}
+
+export const patientSearch = async (request: Request, response: Response) => {
+    const { patientName } = request.query
+
+    try {
+        await connectToDatabase()
+        const consultations = await Patient.find({
+            "$or": [
+                { "personal_information.fullName": { $regex: new RegExp(patientName as string, "i") } },
+            ]
+        })
+        if(!consultations) {
+            return response.status(404).send({ message: "Search not found" })
+        }
+        return response.status(200).send(consultations)
+    } catch (error) {
+        throw error
+    }
+}

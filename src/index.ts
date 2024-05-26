@@ -1,5 +1,5 @@
 import express from "express"
-import  cors from "cors"
+import cors from "cors"
 import patientRoutes from "./routes/routes.patients"
 import "dotenv/config"
 
@@ -7,7 +7,7 @@ const app = express()
 
 app.use(express.json())
 const corsOptions = {
-    origin: ["http://localhost:3000/"],
+    origin: ["http://localhost:3000"],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE", 
     credentials: true,
     optionsSuccessStatus: 204
