@@ -1,4 +1,4 @@
-# Consultations API
+# Med API
 
 This is the documentation for the Med API, which allows you to create, retrieve, and search for patient consultations. The base route for all endpoints is `/api/consultations/`.
 
